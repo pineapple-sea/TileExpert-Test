@@ -1,0 +1,144 @@
+<mat-toolbar (click)="closeSearch()">
+  <mat-toolbar-row>
+    <button mat-icon-button class="menu-icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="logo-wrapper">
+      <img src="assets/images/logo.png" class="logo-image">
+    </div>
+
+    <div class="menu-buttons">
+      <ng-container *ngTemplateOutlet="menuButtons"></ng-container>
+
+      <button mat-icon-button (click)="openSearch($event)">
+        <mat-icon>search</mat-icon>
+      </button>
+
+      <div class="search-wrapper" [@searchAnimation]="isSearchOpen" (click)="$event.stopPropagation()">
+        <div class="search-input">
+          <button mat-button mat-icon-button>
+            <mat-icon class="search-icon">search</mat-icon>
+          </button>
+          <input type="text" [formControl]="searchControl" (click)="openFilters()">
+
+          <button *ngIf="searchControl.value" mat-button mat-icon-button aria-label="Clear" class="search-clear"
+            (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <button mat-button class="search-button">НАЙТИ</button>
+      </div>
+
+      <div *ngIf="isFiltersOpen" class="filters-menu" (click)="$event.stopPropagation()" [formGroup]="filtersForm">
+        <div>
+          <mat-checkbox formControlName="isMyBooks">мои</mat-checkbox>
+          <input type="text" placeholder="Автор" class="input" formControlName="author">
+        </div>
+
+        <div>
+          Сортировать по:
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="sortBy">
+              <mat-option value="date">Дате</mat-option>
+              <mat-option value="alphabet">По алфавиту</mat-option>
+              <mat-option value="rating">По рейтингу</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-checkbox formControlName="participant">я участник</mat-checkbox>
+          <mat-checkbox formControlName="inTitle">в заголовке</mat-checkbox>
+          <mat-checkbox formControlName="strictSearch">строгий поиск</mat-checkbox>
+        </div>
+      </div>
+
+      <button mat-icon-button class="add-button">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </div>
+
+    <ng-container *ngTemplateOutlet="userButtons">
+    </ng-container>
+  </mat-toolbar-row>
+  
+  <mat-toolbar-row>
+    <ng-container *ngTemplateOutlet="menuButtons"></ng-container>
+
+    <ng-container *ngTemplateOutlet="userButtons"></ng-container>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="content" (click)="closeSearch()">
+  <router-outlet></router-outlet>
+</div>
+
+<ng-template #menuButtons>
+  <div class="buttons">
+    <button mat-button [matMenuTriggerFor]="linksMenu">
+      Ссылки
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #linksMenu="matMenu" yPosition="below">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  
+    <button mat-button>Контакты</button>
+  
+    <button mat-button [matMenuTriggerFor]="tagsMenu">
+      Теги
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  
+    <mat-menu #tagsMenu="matMenu" yPosition="below">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  
+    <button mat-button [matMenuTriggerFor]="wishesMenu">
+      Просьбы
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  
+    <mat-menu #wishesMenu="matMenu" yPosition="below">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  
+    <button mat-button [matMenuTriggerFor]="chosenMenu">
+      Избранное
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  
+    <mat-menu #chosenMenu="matMenu" yPosition="below">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  
+    <button mat-button [matMenuTriggerFor]="visitsMenu">
+      Посещения
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  
+    <mat-menu #visitsMenu="matMenu" yPosition="below">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  </div>
+</ng-template>
+
+<ng-template #userButtons>
+  <div class="user-buttons">
+    <button mat-icon-button>
+      <mat-icon>mail_outline</mat-icon>
+    </button>
+
+    <button mat-icon-button>
+      <mat-icon matBadge="18" matBadgeSize="small" matBadgeColor="warn">notifications_none</mat-icon>
+    </button>
+
+    <img src="assets/images/profile_image.png">
+  </div>
+</ng-template>
